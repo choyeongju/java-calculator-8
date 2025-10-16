@@ -51,11 +51,31 @@ public class Application {
                 }
             }
 
-            String[] tokens = expression.split(delimiterPattern);
+            String[] tokens = expression.split(delimiterPattern, -1);
             int total = 0;
 
             for (String token : tokens) {
-                total += Integer.parseInt(token);
+                if (token.isEmpty()) {
+                    throw new IllegalArgumentException("[400 error] 빈 값은 허용되지 않습니다.");
+                }
+
+                final int number;
+                try {
+                    number = Integer.parseInt(token);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("[400 error] 숫자 이외의 문자가 포함되었습니다.");
+                }
+
+                if (number < 0) {
+                    throw new IllegalArgumentException("[400 error] 숫자는 양수여야 합니다.");
+                }
+
+                long tempSum = (long) total + number;
+                if (tempSum > Integer.MAX_VALUE) {
+                    throw new IllegalArgumentException("[400 error] 합계가 int 범위를 초과했습니다.");
+                }
+
+                total += number;
             }
 
             System.out.println("결과 : " + total);
