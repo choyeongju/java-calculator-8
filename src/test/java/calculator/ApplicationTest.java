@@ -129,6 +129,46 @@ class ApplicationTest extends NsTest {
         );
     }
 
+    @Test
+    void 커스텀_구분자_부분_없음_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//\n1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀구분자_기본구분자_혼용_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;\\n1;2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_형식오류_개행없음_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;1;2;3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_형식오류_숫자없음_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//;\\n"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 커스텀_연속구분자_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("//av\\n1avav2"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
