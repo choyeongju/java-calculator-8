@@ -11,6 +11,11 @@ public class Application {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String inputLine = reader.readLine();
 
+            if (inputLine == null || inputLine.trim().isEmpty()) {
+                System.out.println("0");
+                return;
+            }
+
             String expression = inputLine;
             String delimiterPattern = "[,:]";
             String[] tokens = expression.split(delimiterPattern);
