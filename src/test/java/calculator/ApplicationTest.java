@@ -169,6 +169,14 @@ class ApplicationTest extends NsTest {
         );
     }
 
+    @Test
+    void 합계_int_범위_초과_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("2147483647,1"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
