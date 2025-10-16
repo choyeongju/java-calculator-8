@@ -45,6 +45,10 @@ public class Application {
 
                 delimiterPattern = quote(userDelimiter);
                 expression = inputLine.substring(splitPoint + skipCount);
+
+                if (expression.contains(",") || expression.contains(":")) {
+                    throw new IllegalArgumentException("[400 error] 정의되지 않은 구분자가 포함되었습니다.");
+                }
             }
 
             String[] tokens = expression.split(delimiterPattern);
